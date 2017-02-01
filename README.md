@@ -21,7 +21,7 @@ cp crash/crash /usr/local/share/zsh/site-functions # Or anywhere else in $fpath
 
 ### Set up the global error handler
 
-Crash comes with a global error handler, which prints a readable error and stack trace both for user-create exceptions and traditional shell exit codes.
+Crash comes with a global error handler, which prints a readable error and stack trace both for user-created exceptions and traditional shell exit codes.
 
 ```sh
 autoload -Uz crash && crash register
