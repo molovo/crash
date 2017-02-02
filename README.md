@@ -1,5 +1,8 @@
 # Crash
 
+[![Build Status](https://travis-ci.org/molovo/crash.svg?branch=master)](https://travis-ci.org/molovo/crash)
+[![Join the chat at https://gitter.im/molovo/crash](https://badges.gitter.im/molovo/crash.svg)](https://gitter.im/molovo/crash?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Proper error handling, exceptions and try/catch for ZSH.
 
 ![Crash Screenshot](/screenshots/screenshot.png)
