@@ -76,7 +76,9 @@ function _crash_format_trace_info() {
   local node=${str[1]} line=${str[2]} color
 
   if [[ $tracetype = 'file' ]]; then
-    node=$(realpath $node)
+    if builtin type realpath >/dev/null 2>&1; then
+      node=$(realpath $node)
+    fi
     color='\033[0;35m'
   fi
 
