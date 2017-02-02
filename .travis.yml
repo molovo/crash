@@ -11,9 +11,9 @@ before_script:
 - if [[ "$ZSH_SRC" == "homebrew" ]]; then brew install zsh; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install zsh; fi
 - mkdir .bin
-- sudo curl -L https://raw.githubusercontent.com/molovo/revolver/master/revolver > .bin/revolver
-- sudo curl -L https://raw.githubusercontent.com/molovo/color/master/color.zsh > .bin/color
-- sudo curl -L https://raw.githubusercontent.com/molovo/zunit/master/zunit > .bin/zunit
+- curl -L https://raw.githubusercontent.com/molovo/revolver/master/revolver > .bin/revolver
+- curl -L https://raw.githubusercontent.com/molovo/color/master/color.zsh > .bin/color
+- curl -L https://raw.githubusercontent.com/molovo/zunit/master/zunit > .bin/zunit
 - chmod u+x .bin/{color,revolver,zunit}
 - export PATH="$PWD/.bin:$PATH"
 script: zunit
