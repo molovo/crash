@@ -1,0 +1,35 @@
+#!/usr/bin/env zunit
+
+@test 'Test throw returns exception status' {
+  autoload -Uz crash && crash register
+
+  run throw AnException 'Unicorns!'
+
+  assert $state equals 72
+}
+
+@test 'Test exception is caught within try/catch block' {
+  autoload -Uz crash && crash register
+
+  # Create a function which just throws an exception
+  _throw() {
+    throw TestException 'Rainbows!'
+  }
+
+  # Create a handler which just reports the caught exception
+  _handler() {
+    echo "Caught $1"
+  }
+
+  # Catch the exception within a try/catch block
+  _exception_test() {
+    try _throw
+    catch TestException _handler
+  }
+
+  run _exception_test
+
+  # Since the exception was caught, the exit state should be zero
+  assert $state equals 0
+  assert "$output" same_as "Caught TestException"
+}
