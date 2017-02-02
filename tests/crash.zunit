@@ -1,6 +1,7 @@
 #!/usr/bin/env zunit
 
 @test 'Test throw returns exception status' {
+  fpath=($PWD $fpath)
   autoload -Uz crash && crash register
 
   run throw AnException 'Unicorns!'
@@ -9,6 +10,7 @@
 }
 
 @test 'Test exception is caught within try/catch block' {
+  fpath=($PWD $fpath)
   autoload -Uz crash && crash register
 
   # Create a function which just throws an exception
