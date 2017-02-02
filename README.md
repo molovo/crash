@@ -2,6 +2,8 @@
 
 Proper error handling, exceptions and try/catch for ZSH.
 
+![Crash Screenshot](/screenshots/screenshot.png)
+
 ## Installation
 
 ### [zulu](https://github.com/zulu-zsh/zulu)
