@@ -68,6 +68,26 @@ function _crash_map_exit_code() {
 }
 
 ###
+# Format and output trace info
+###
+function _crash_format_trace_info() {
+  local tracetype="$1"
+  local -a str; str=("${(s/:/)2}")
+  local node=${str[1]} line=${str[2]} color
+
+  if [[ $tracetype = 'file' ]]; then
+    node=$(realpath $node)
+    color='\033[0;35m'
+  fi
+
+  if [[ $tracetype = 'function' ]]; then
+    color='\033[1;33m'
+  fi
+
+  echo "$color$node\033[0;m \033[0;38;5;242m:\033[0;m line $line"
+}
+
+###
 # A function which throws an exception if it hasn't been caught
 ###
 function _crash_catch_all_exception() {
@@ -114,8 +134,8 @@ function _crash_global_exception_handler() {
 
   # Print the function and file/line where the exception was thrown
   echo
-  echo "  in \033[0;33m${trace[1]}\033[0;m"
-  echo "  at \033[0;35m${files[1]}\033[0;m"
+  echo "  in $(_crash_format_trace_info 'function' ${trace[1]})"
+  echo "  at $(_crash_format_trace_info 'file' ${files[1]})"
 
   # Loop backwards through the trace, printing the function
   # and file/line for each step
@@ -125,8 +145,8 @@ function _crash_global_exception_handler() {
     shift files
 
     echo
-    echo "  $i   \033[0;33m${trace[1]}\033[0;m"
-    echo "      \033[0;35m${files[1]}\033[0;m"
+    echo "  \033[0;38;5;242m$i\033[0;m   $(_crash_format_trace_info 'function' ${trace[1]})"
+    echo "      $(_crash_format_trace_info 'file' ${files[1]})"
 
     i=$(( i + 1 ))
   done

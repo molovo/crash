@@ -1,6 +1,6 @@
 # Crash
 
-Proper error handling, exceptions and try/catch for ZSH
+Proper error handling, exceptions and try/catch for ZSH.
 
 ## Installation
 
