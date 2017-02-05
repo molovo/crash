@@ -313,6 +313,15 @@ function _crash_register() {
   }
 }
 
+function _crash_unload() {
+  # Remove the catch all exception in case we are
+  # in the middle of a catch block
+  add-zsh-hook -D preexec _crash_catch_all_exception
+
+  # Remove the global exception handler
+  zshexit() {}
+}
+
 ###
 # The main process
 ###
@@ -336,6 +345,12 @@ function crash() {
   case $ctx in
     'register' )
       _crash_register "${(@)@:2}"
+      ;;
+    'unload' )
+      _crash_unload
+      ;;
+    * )
+      throw UnrecognisedCommandError "The command '$1' is unrecognised"
       ;;
   esac
 }
