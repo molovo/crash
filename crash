@@ -338,7 +338,7 @@ function crash() {
   fi
 
   if [[ -n $version ]]; then
-    echo 0.1.0
+    echo 0.1.2
     return
   fi
 
