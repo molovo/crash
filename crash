@@ -67,6 +67,20 @@ function _crash_map_exit_code() {
   echo $sig_name
 }
 
+function _crash_find_in_sourcemap() {
+  local file="$1" line="$2"
+
+  entry=$(cat $sourcemap | grep -E "^$line:.*")
+  local -a str; str=("${(s/:/)entry}")
+
+  if [[ -n $entry ]]; then
+    echo "${str[2]}:${str[3]}"
+    return
+  fi
+
+  echo "$file:$line"
+}
+
 ###
 # Format and output trace info
 ###
@@ -75,9 +89,15 @@ function _crash_format_trace_info() {
   local -a str; str=("${(s/:/)2}")
   local node=${str[1]} line=${str[2]} color
 
-  if [[ $tracetype = 'file' ]]; then
+  if [[ $tracetype = 'file' || $tracetype = 'source_file' ]]; then
     if builtin type realpath >/dev/null 2>&1; then
-      node=$(realpath $node)
+      # node=$(realpath $node)
+
+      if [[ $tracetype = 'file' && -n $sourcemap ]]; then
+        result=$(_crash_find_in_sourcemap $node $line)
+        _crash_format_trace_info 'source_file' $result
+        return
+      fi
     fi
     color='\033[0;35m'
   fi
@@ -300,6 +320,13 @@ function throw() {
 function _crash_register() {
   # Autoload preexec hook
   autoload -Uz add-zsh-hook
+
+  zparseopts -D \
+    s=sourcemap -sourcemap:=sourcemap
+
+  if [[ -n $sourcemap ]]; then
+    shift sourcemap
+  fi
 
   # Initialise variables used by the exception handler
   export CRASH_THROWN_EXCEPTION=''
