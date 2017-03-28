@@ -33,5 +33,5 @@
 
   # Since the exception was caught, the exit state should be zero
   assert $state equals 0
-  assert "$output" same_as "Caught TestException"
+  assert "${lines[${#lines}]}" same_as "Caught TestException"
 }
